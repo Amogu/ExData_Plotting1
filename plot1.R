@@ -1,0 +1,10 @@
+temp <- tempfile()
+download.file("http://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip",temp, method = "curl")
+con1 <- unz(temp, "household_power_consumption.txt")
+data <- read.table(con1, header = TRUE, sep = ";", na.strings = "?")
+unlink(temp)
+dataA <- subset(data, as.Date(data$Date, format="%d/%m/%Y") %in% as.Date(c("2007-02-01", "2007-02-02"), format="%Y-%m-%d"))
+png(file = "plot1.png", width = 480, height = 480)
+hist(dataA$Global_active_power,breaks=12, col="red",  xlab="Global Active Power (kilowatts)",
+     main="Global Active Power")
+dev.off()
